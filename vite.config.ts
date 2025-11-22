@@ -13,7 +13,7 @@ export default defineConfig({
   plugins: [
     react(),
     runtimeErrorOverlay(),
-    glsl(), // Add GLSL shader support
+    glsl()
   ],
   resolve: {
     alias: {
@@ -26,6 +26,5 @@ export default defineConfig({
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
   },
-  // Add support for large models and audio files
   assetsInclude: ["**/*.gltf", "**/*.glb", "**/*.mp3", "**/*.ogg", "**/*.wav"],
 });
