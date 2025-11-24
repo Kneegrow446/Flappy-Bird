@@ -18,3 +18,122 @@ A classic Flappy Bird game built with HTML5 Canvas, featuring realistic design, 
 - Avoid the pipes and the ground
 - Try to score as many points as possible!
 
+
+# Flappy Bird Game - Project Overview
+
+## Overview
+
+A browser-based Flappy Bird clone built with HTML5 Canvas and React. The game features realistic physics, a dynamic day-night cycle, parallax backgrounds, and score tracking with local persistence. The project uses a full-stack architecture with Express.js backend, though the current implementation is primarily client-side focused.
+
+## User Preferences
+
+Preferred communication style: Simple, everyday language.
+
+## System Architecture
+
+### Frontend Architecture
+
+**Core Technology Stack:**
+- React 18 with TypeScript for UI components
+- HTML5 Canvas for 2D game rendering
+- Vite as the build tool and development server
+- TailwindCSS + shadcn/ui for styling and UI components
+
+**State Management:**
+- Zustand for global state management
+- Three separate stores handle different concerns:
+  - `useFlappyBird`: Game state (phase, score, high score)
+  - `useAudio`: Sound management (mute state, audio elements)
+  - `useGame`: Generic game state (alternative game state pattern)
+
+**Game Rendering:**
+- Pure Canvas 2D rendering in `FlappyBird.tsx`
+- Game loop using `requestAnimationFrame` for smooth 60fps rendering
+- Manual state management via `useRef` for game objects (bird, pipes, clouds)
+- Collision detection using bounding box intersection
+- Parallax scrolling with multi-layer backgrounds
+
+**Design Patterns:**
+- Component-based architecture with clear separation of concerns
+- Game UI (`GameUI.tsx`) overlays canvas for menus and score display
+- Sound effects managed separately through dedicated audio store
+- Local storage for high score persistence
+
+### Backend Architecture
+
+**Server Setup:**
+- Express.js server with dual entry points:
+  - `index-dev.ts`: Development mode with Vite middleware for HMR
+  - `index-prod.ts`: Production mode serving static built files
+- TypeScript throughout with ESM modules
+
+**API Structure:**
+- Routes registered in `server/routes.ts` (currently minimal)
+- Storage abstraction layer with interface-based design (`IStorage`)
+- In-memory storage implementation (`MemStorage`) for user data
+- Prepared for database integration via storage interface
+
+**Build Process:**
+- Vite builds frontend to `dist/public`
+- esbuild bundles backend to `dist/index.js`
+- Separate development and production execution paths
+
+### Data Storage Solutions
+
+**Current Implementation:**
+- In-memory storage for user data (if backend features are added)
+- Browser localStorage for high score persistence
+- No active database connection in current game implementation
+
+**Database Schema (Prepared but Unused):**
+- Drizzle ORM configured for PostgreSQL
+- User schema defined with id, username, password fields
+- Zod validation schemas for type safety
+- Migration tooling configured via `drizzle.config.ts`
+
+**Design Decision:**
+- Storage interface allows easy swap from in-memory to database implementation
+- Schema exists for future user account features
+- Current game is fully client-side with no server dependencies
+
+### Authentication and Authorization
+
+**Current State:**
+- No active authentication implemented
+- User schema exists in `shared/schema.ts` for future use
+- Storage layer includes user CRUD methods ready for implementation
+
+### External Dependencies
+
+**UI Component Libraries:**
+- Radix UI primitives (@radix-ui/*) for accessible component foundations
+- shadcn/ui pattern for customizable component system
+- Lucide React for icons
+- React Three Fiber ecosystem (installed but not actively used in current Flappy Bird implementation)
+
+**Build and Development Tools:**
+- Vite with React plugin for fast development
+- TypeScript for type safety
+- PostCSS with TailwindCSS for styling
+- esbuild for production server bundling
+- GLSL shader support via vite-plugin-glsl (configured but unused in current game)
+
+**Database and ORM:**
+- Drizzle ORM with PostgreSQL dialect
+- @neondatabase/serverless for serverless Postgres connectivity
+- Zod for schema validation
+- Note: Database connection requires `DATABASE_URL` environment variable
+
+**State and Data Management:**
+- Zustand for client state management
+- TanStack Query (React Query) for server state (configured but minimal usage)
+- connect-pg-simple for PostgreSQL session storage (configured but unused)
+
+**Audio Assets:**
+- Sound effects loaded via standard HTML5 Audio API
+- Expected sound files: `hit.mp3`, `success.mp3` in `/sounds/` directory
+
+**Potential Issues:**
+- Large number of unused 3D rendering dependencies (@react-three/*) for a 2D Canvas game
+- Database configuration exists but is not utilized in current implementation
+- React Three Fiber ecosystem suggests potential future 3D features or template origin
